@@ -15,6 +15,7 @@
       --accent: #0071bb;
       --text: #0f172a;
       --gloss: rgba(255,255,255,0.35);
+      --envelope-outline: rgba(0, 113, 187, 0.4);
     }
 
     html, body {
@@ -23,9 +24,10 @@
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      overflow: auto;
+      overflow: visible;
+      padding-top: 20px;
     }
 
     .scene {
@@ -33,13 +35,29 @@
       width: 90%;
       max-width: 450px;
       perspective: 1200px;
-      padding: 20px 0;
+      padding: 40px 0 20px 0;
+    }
+
+    .envelope-outline {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      width: 100%;
+      height: auto;
+      max-height: none;
+      transform: translateX(-50%);
+      border: 2px dashed var(--envelope-outline);
+      border-radius: 12px;
+      box-sizing: border-box;
+      z-index: 1;
+      padding-bottom: 40px;
+      background: transparent;
     }
 
     .envelope {
       position: relative;
       width: 100%;
-      background: var(--envelope);
+      background: transparent;
       border-radius: 12px;
       box-shadow: 0 16px 40px rgba(0,0,0,0.35);
       overflow: visible;
@@ -47,6 +65,7 @@
       animation: openEnvelope 3.5s ease forwards;
       clip-path: polygon(0 0, 100% 0, 100% 85%, 0 85%);
       padding-bottom: 40px;
+      z-index: 2;
     }
 
     .flap {
@@ -79,19 +98,23 @@
 
     .card {
       position: relative;
-      width: 100%;
+      width: 90%;
+      max-width: 380px;
       background: var(--card-bg);
       border-radius: 16px;
       box-shadow: 0 12px 30px rgba(0,0,0,0.25);
       text-align: center;
       padding: 40px 32px;
-      margin-top: 140px;
+      margin: 160px auto 40px auto;
       transform: scale(0.95);
       opacity: 0;
       animation: slideCard 4s ease forwards;
-      z-index: 2;
+      z-index: 4;
       box-sizing: border-box;
       min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     h1 {
@@ -146,6 +169,7 @@
 </head>
 <body>
   <div class="scene">
+    <div class="envelope-outline"></div>
     <div class="envelope">
       <div class="flap"></div>
       <div class="gloss"></div>
@@ -177,9 +201,8 @@
     document.addEventListener('DOMContentLoaded', () => {
       const i = Math.floor(Math.random() * quotes.length);
       quoteEl.textContent = '“' + quotes[i] + '”';
-      // Dynamische Höhe der Karte anpassen
       setTimeout(() => {
-        const cardHeight = quoteEl.scrollHeight + 100; // Padding + Überschrift berücksichtigen
+        const cardHeight = quoteEl.scrollHeight + 140;
         cardEl.style.height = cardHeight + 'px';
       }, 50);
     });
